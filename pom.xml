@@ -11,8 +11,8 @@
 	<groupId>com.example</groupId>
 	<artifactId>projeto-final</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>projeto-final</name>
-	<description>Demo project for Spring Boot</description>
+	<name>poo-af</name>
+	<description>Spring Boot Project - POO AF</description>
 
 	<properties>
 		<java.version>14</java.version>
