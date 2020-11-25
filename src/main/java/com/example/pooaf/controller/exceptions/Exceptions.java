@@ -1,4 +1,4 @@
-package com.example.projetofinal.controller.exceptions;
+package com.example.pooaf.controller.exceptions;
 
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 

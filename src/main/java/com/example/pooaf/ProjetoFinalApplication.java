@@ -1,4 +1,4 @@
-package com.example.projetofinal;
+package com.example.pooaf;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,5 +9,4 @@ public class ProjetoFinalApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ProjetoFinalApplication.class, args);
 	}
-
 }
