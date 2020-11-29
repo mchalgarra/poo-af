@@ -7,6 +7,11 @@ public class Vehicle {
 
     public Vehicle() {}
 
+    public Vehicle(String model, double dailyValue) {
+        this.model = model;
+        this.dailyValue = dailyValue;
+    }
+
     public Vehicle(int id, String model, double dailyValue) {
         this.id = id;
         this.model = model;
