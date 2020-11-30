@@ -43,11 +43,9 @@ Get (by number) - /reservations/{number}
 ### **Clients**
 > The clients id starts at 630
 ```JSON
-{
     "name": "Client Name", // must have between 3 and 30 characters
     "address": "Client Address", // must have between 5 and 60 characters
     "cpf": "44455566600" // must have 11 characters
-}
 ```
 ### **Vehicles**
 > The vehicles id starts at 240
