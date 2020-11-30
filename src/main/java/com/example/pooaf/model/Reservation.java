@@ -1,8 +1,7 @@
 package com.example.pooaf.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonGetter;
@@ -14,7 +13,7 @@ public class Reservation {
     @JsonFormat(pattern = "dd/MM/yyyy@HH:mm:ss")
     private LocalDateTime end;
     private Client client;
-    private List<Vehicle> vehicles = new ArrayList<>();
+    private Vehicle vehicle;
 
     public Reservation() {}
 
@@ -48,7 +47,7 @@ public class Reservation {
         this.end = end;
     }
 
-    public Client getCliente() {
+    public Client getClient() {
         return client;
     }
 
@@ -58,19 +57,18 @@ public class Reservation {
 
     @JsonGetter
     public double totalReservation() {
-        double total = 0;
+        long days = Duration.between(this.start, this.end).toDays();
 
-        for (Vehicle vehicle : vehicles) {
-            total += vehicle.getDailyValue(); // * (tempo que ficar com o carro);
-        }
+        double total = this.vehicle.getDailyValue() * days;
+
         return total;
     }
 
-    public List<Vehicle> getVehicles() {
-        return vehicles;
+    public Vehicle getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicles(List<Vehicle> vehicles) {
-        this.vehicles = vehicles;
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 }
