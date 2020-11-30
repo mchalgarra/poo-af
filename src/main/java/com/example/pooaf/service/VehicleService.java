@@ -1,9 +1,11 @@
 package com.example.pooaf.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.example.pooaf.dto.VehicleDTO;
+import com.example.pooaf.model.Reservation;
 import com.example.pooaf.model.Vehicle;
 import com.example.pooaf.repository.VehicleRepository;
 import com.example.pooaf.utils.ResSttException;
@@ -16,6 +18,9 @@ public class VehicleService {
     
     @Autowired
     private VehicleRepository vehicleRepository;
+
+    @Autowired
+    private ReservationService reservationService;
 
     public Vehicle fromDTO(VehicleDTO dto) {
         String model = dto.getModel();
@@ -33,8 +38,18 @@ public class VehicleService {
         return op.orElseThrow(ResSttException.notFound("Vehicle not registered!"));
     }
 
+    public Vehicle getByModel(String model) {
+        List<Vehicle> vehicles = this.getAll();
+        for(Vehicle vehicle : vehicles) {
+            if(vehicle.getModel().equalsIgnoreCase(model)) {
+                return vehicle;
+            }
+        }
+        return null;
+    }
+
     public Vehicle save(Vehicle vehicle) {
-        int id = 1;
+        int id = 240;
         List<Vehicle> vehicles = this.getAll();
 
         for(Vehicle v : vehicles) {
@@ -43,7 +58,7 @@ public class VehicleService {
             }
         }
         int size = vehicles.size();
-        vehicle.setId(size > 0 ? vehicles.get(size - 1).getId() : id);
+        vehicle.setId(size > 0 ? vehicles.get(size - 1).getId() + 1 : id);
         vehicleRepository.save(vehicle);
         return vehicle;
     }
@@ -69,8 +84,31 @@ public class VehicleService {
         }
     }
 
-    public void delete(int id) {
+    public Vehicle delete(int id) {
         Vehicle vehicle = this.getById(id);
+        List<Reservation> reservations = reservationService.readAllReservations();
+
+        for(Reservation r : reservations) {
+            Vehicle v = r.getVehicle();
+            if(v.equals(vehicle)) {
+                return null;
+            }
+        }
+
         vehicleRepository.remove(vehicle);
+        return vehicle;
+    }
+
+    public List<Reservation> getReservations(Vehicle vehicle) {
+        List<Reservation> reservations = reservationService.readAllReservations();
+        List<Reservation> vehicleReservations = new ArrayList<>();
+
+        reservations.forEach(reservation -> {
+            if(reservation.getVehicle().equals(vehicle)) {
+                vehicleReservations.add(reservation);
+            }
+        });
+
+        return vehicleReservations;
     }
 }
