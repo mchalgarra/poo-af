@@ -9,7 +9,6 @@ import java.util.Optional;
 @Component
 public class ReservationRepository {
     private List <Reservation> reservations  = new ArrayList<>();
-    private static int nextNumero = 1;
 
     public List<Reservation> readAllReservations() {
         return reservations;
@@ -24,9 +23,7 @@ public class ReservationRepository {
         return Optional.empty();
     }
 
-    public Reservation create(Reservation reservation) {
-        reservation.setNumber(nextNumero++);
+    public void create(Reservation reservation) {
         reservations.add(reservation);
-        return reservation;
     }
 }
