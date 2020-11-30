@@ -9,8 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class ClientRepository {
-    List <Client> clients  = new ArrayList<Client>();
-    private int nextCode;
+    List <Client> clients  = new ArrayList<>();
 
     public List<Client> readAllClients() {
         return clients;
@@ -25,10 +24,8 @@ public class ClientRepository {
         return Optional.empty();
     }
 
-    public Client create(Client client) {
-        client.setId(nextCode++);
+    public void create(Client client) {
         clients.add(client);
-        return client;
     }
 
 	public void delete(Client client) {
