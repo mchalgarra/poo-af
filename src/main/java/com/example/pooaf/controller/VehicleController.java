@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import com.example.pooaf.dto.VehicleDTO;
+import com.example.pooaf.model.Reservation;
 import com.example.pooaf.model.Vehicle;
 import com.example.pooaf.service.VehicleService;
 
@@ -40,13 +41,22 @@ public class VehicleController {
         return ResponseEntity.ok(vehicle);
     }
 
+    @GetMapping("/{id}/reservations")
+    public List<Reservation> getVehicleReservations(@PathVariable int id) {
+        Vehicle vehicle = vehicleService.getById(id);
+        return vehicleService.getReservations(vehicle);
+    }
+
     @PostMapping
     public ResponseEntity<Vehicle> createVehicle(@Valid @RequestBody VehicleDTO vehicleDTO,
         HttpServletRequest request, UriComponentsBuilder builder) {
         Vehicle vehicle = vehicleService.fromDTO(vehicleDTO);
         Vehicle newVehicle = vehicleService.save(vehicle);
-        UriComponents uriComponents = builder.path(request.getRequestURI() + "/" + newVehicle.getId()).build();
-        return ResponseEntity.created(uriComponents.toUri()).build();
+        if(newVehicle != null) {
+            UriComponents uriComponents = builder.path(request.getRequestURI() + "/" + newVehicle.getId()).build();
+            return ResponseEntity.created(uriComponents.toUri()).build();
+        }
+        return ResponseEntity.status(405).build();
     }
 
     @PutMapping("/{id}")
@@ -67,8 +77,11 @@ public class VehicleController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Vehicle> deleteVehicle(@PathVariable int id) {
-        vehicleService.delete(id);
+    public ResponseEntity<String> deleteVehicle(@PathVariable int id) {
+        Vehicle vehicle = vehicleService.delete(id);
+        if(vehicle == null) {
+            return ResponseEntity.status(405).body("This vehicle has reservations and cannot be deleted!");
+        }
         return ResponseEntity.noContent().build();
     }
 }
