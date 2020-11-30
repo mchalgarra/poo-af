@@ -1,22 +1,27 @@
 package com.example.pooaf.dto;
 
 import java.time.LocalDateTime;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import com.example.pooaf.model.Vehicle;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class ReservationDTO {
-    private long number;
+    
+    @NotEmpty(message = "Start date is required!")
+    @JsonFormat(pattern = "dd/MM/yyyy@HH:mm:ss")
     private LocalDateTime start;
+
+    @NotEmpty(message = "End date is required!")
+    @JsonFormat(pattern = "dd/MM/yyyy@HH:mm:ss")
     private LocalDateTime end;
+
+    @NotNull(message = "Vehicle is required!")
     private Vehicle vehicle;
+
     private double totalReservation;
-
-    public long getNumber() {
-        return number;
-    }
-
-    public void setNumber(long number) {
-        this.number = number;
-    }
 
     public LocalDateTime getStart() {
         return start;
