@@ -10,7 +10,7 @@ public class Client {
     private int id;
     private String name;
     private String address;
-    private double cpf;
+    private String cpf;
     
     @JsonIgnore
     private List<Reservation> reservations = new ArrayList<>();
@@ -39,11 +39,11 @@ public class Client {
         this.address = address;
     }
 
-    public double getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    public void setCpf(double cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
 
